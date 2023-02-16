@@ -1,0 +1,19 @@
+#container {
+    width: 50%;
+    left: 50%;
+    position: absolute;
+    transform: translate(-50%, 0%);
+}
+#searchInput {
+    display: flex;
+    flex: 1;
+    width: 94%;
+    padding: 15px;
+    border-radius: 10px;
+    border-color: transparent;
+    background-color: #e6e6e6;
+}
+#meanings-wrapper {
+    height: 200px;
+    overflow-y: scroll;
+}

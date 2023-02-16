@@ -1,12 +1,90 @@
+const container = document.getElementById("container");
 const searchInput = document.getElementById("searchInput");
 const BASE_API_URL = "https://api.dictionaryapi.dev/api/v2/entries/en/";
 
+const getCountry = (audioLink) => {
+    if (audioLink.indexOf("uk") > -1) {
+        return "UK";
+    } else if (audioLink.indexOf("us") > -1) {
+        return "US";
+    } else if (audioLink.indexOf("au") > -1) {
+        return "AU"
+    }
+};
+const render = (datas) => {
+    for (let data of datas) {
+        const wordWrapper = document.createElement("div");
+        wordWrapper.id = "word-wrapper";
+        const headerContainer = document.createElement("div");
+        const phoneticContainer = document.createElement("div");
+        const meaningContainer = document.createElement("div");
+        meaningContainer.id = "meanings-wrapper"
+        const title = document.createElement("h1");
+        const type = document.createElement("p");
+        title.textContent = data?.word ?? "";
+        type.textContent = data?.meanings[0].partOfSpeech ?? "";
+        headerContainer.appendChild(title);
+        if (data.phonetics) {
+            for (let p of data.phonetics) {
+                const soundFile = document.createElement("audio");
+                soundFile.preload = "auto";
+                const src = document.createElement("source");
+                src.src = p.audio;
+                soundFile.appendChild(src);
+                const wrapperPhonetic = document.createElement("span")
+                const svg = document.createElement("img");
+                svg.src = "./audio.svg"
+                svg.style.width = "12px";
+                svg.style.fontWeight = "bold";
+                svg.style.marginLeft = "3px";
+                svg.style.marginRight = "10px";
+                wrapperPhonetic.style.marginRight = "10px";
+                svg.onclick = () => {
+                    //Set the current time for the audio file to the beginning
+                    soundFile.currentTime = 0.01;
+                    //Due to a bug in Firefox, the audio needs to be played after a delay
+                    setTimeout(function(){soundFile.play();},1);
+                };
+                const phoneticTextElement = document.createElement("span");
+                const country = document.createElement("span");
+                phoneticTextElement.textContent = p.text;
+                country.textContent = getCountry(p.audio) ?? "";
+                country.style.fontWeight = "bold";
+
+                if (p.audio) {
+                    wrapperPhonetic.appendChild(country);
+                    wrapperPhonetic.appendChild(soundFile);
+                    wrapperPhonetic.appendChild(svg);
+                    wrapperPhonetic.appendChild(phoneticTextElement);
+                }
+                phoneticContainer.appendChild(wrapperPhonetic);
+            }
+        }
+        if (data.meanings.length) {
+            for (let meaning of data.meanings[0].definitions) {
+                const definition = document.createElement("p");
+                definition.id = "definition"
+                const example = document.createElement("p");
+                example.id= "example"
+                definition.innerText = meaning.definition
+                example.innerText = meaning.example
+                meaningContainer.appendChild(definition);
+                meaningContainer.appendChild(example);
+            }
+        }
+        wordWrapper.appendChild(headerContainer);
+        wordWrapper.appendChild(type);
+        wordWrapper.appendChild(phoneticContainer)
+        wordWrapper.appendChild(meaningContainer)
+        container.appendChild(wordWrapper);
+    }
+};
 const search = (event) => {
   if (event.target.value) {
       fetch(`${BASE_API_URL}${event.target.value}`)
           .then((res) => res.json())
-          .then((data) => console.log("data", data))
-          .catch((err) => console.warn("Something went wrong!"))
+          .then((datas) => render(datas))
+          .catch((err) => console.warn("Something went wrong!", err))
   }
 };
 
