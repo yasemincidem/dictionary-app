@@ -12,18 +12,22 @@ const getCountry = (audioLink) => {
     }
 };
 const render = (datas) => {
+    const headerContainer = document.createElement("div");
+    const title = document.createElement("h1");
+    title.textContent = datas.length ? datas[0]?.word : "";
+    headerContainer.appendChild(title);
+    container.appendChild(headerContainer);
     for (let data of datas) {
         const wordWrapper = document.createElement("div");
         wordWrapper.id = "word-wrapper";
-        const headerContainer = document.createElement("div");
         const phoneticContainer = document.createElement("div");
         const meaningContainer = document.createElement("div");
         meaningContainer.id = "meanings-wrapper"
-        const title = document.createElement("h1");
+        const synonymsContainer = document.createElement("div");
+        synonymsContainer.id = "synonyms-wrapper"
         const type = document.createElement("p");
-        title.textContent = data?.word ?? "";
+        type.id = "type";
         type.textContent = data?.meanings[0].partOfSpeech ?? "";
-        headerContainer.appendChild(title);
         if (data.phonetics) {
             for (let p of data.phonetics) {
                 const soundFile = document.createElement("audio");
@@ -66,16 +70,32 @@ const render = (datas) => {
                 definition.id = "definition"
                 const example = document.createElement("p");
                 example.id= "example"
-                definition.innerText = meaning.definition
-                example.innerText = meaning.example
+                definition.innerText = meaning.definition ?? ""
+                example.innerText = meaning.example ?? ""
                 meaningContainer.appendChild(definition);
                 meaningContainer.appendChild(example);
             }
+            if (data.meanings[0].synonyms.length) {
+                for (let synonym of data.meanings[0].synonyms) {
+                    const synonymElem = document.createElement("p");
+                    synonymElem.id = "synonym"
+                    synonymElem.innerText = synonym;
+                    synonymsContainer.appendChild(synonymElem);
+                }
+            }
         }
-        wordWrapper.appendChild(headerContainer);
         wordWrapper.appendChild(type);
         wordWrapper.appendChild(phoneticContainer)
+        const meaningHeader = document.createElement("p");
+        meaningHeader.innerText = "Meaning:";
+        meaningHeader.id = "meaning-header";
+        wordWrapper.appendChild(meaningHeader)
         wordWrapper.appendChild(meaningContainer)
+        const synonymsHeader = document.createElement("p");
+        synonymsHeader.innerText = "Synonyms:";
+        synonymsHeader.id = "synonyms-header";
+        wordWrapper.appendChild(synonymsHeader)
+        wordWrapper.appendChild(synonymsContainer)
         container.appendChild(wordWrapper);
     }
 };

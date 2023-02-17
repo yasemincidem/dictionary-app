@@ -17,3 +17,21 @@
     height: 200px;
     overflow-y: scroll;
 }
+#definition {
+    font-weight: bold;
+}
+#type {
+    font-weight: bold;
+}
+#word-wrapper {
+    border-bottom: 2px solid gray;
+    padding-bottom: 10px;
+}
+#meaning-header {
+    font-weight: bold;
+    color: red;
+}
+#synonyms-header {
+    font-weight: bold;
+    color: red;
+}
