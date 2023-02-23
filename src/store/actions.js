@@ -1,6 +1,5 @@
 export default {
     setWords(context, payload) {
-        console.log("set words", payload);
         context.commit('setWords', payload);
     },
     getWords(context) {
