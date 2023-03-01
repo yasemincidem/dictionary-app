@@ -31,7 +31,7 @@ export default class List extends Component {
                             <audio preload="auto">
                               <source src=${p.audio}></source>
                             </audio>
-                            <img src={"./audio.svg"} class="audio-icon"></img>
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Speaker_Icon.svg/1200px-Speaker_Icon.svg.png" class="audio-icon"></img>
                             <span>${p.text}</span>
                             <span id="country">${getCountry(p.audio) ?? ""}</span>
                        </span>

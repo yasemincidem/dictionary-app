@@ -1,0 +1,22 @@
+{
+  "name": "dictionary-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "npx parcel index.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yasemincidem/dictionary-app.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yasemincidem/dictionary-app/issues"
+  },
+  "homepage": "https://github.com/yasemincidem/dictionary-app#readme",
+  "devDependencies": {
+    "parcel": "^2.8.3"
+  }
+}
