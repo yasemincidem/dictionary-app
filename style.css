@@ -53,3 +53,12 @@
     font-style: italic;
     line-height: 20px;
 }
+.line-numbered {
+    counter-reset: line;
+}
+
+.line-numbered p::before {
+    counter-increment: line;
+    content: counter(line) " ";
+    margin-right: 0.5em;
+}

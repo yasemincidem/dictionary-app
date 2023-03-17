@@ -41,12 +41,16 @@ export default class List extends Component {
                 }
             }
             phoneticContainer.innerHTML = phoneticHtml;
+            let definitionsHTML = "";
+            for (let definition of word.meanings[0].definitions) {
+                definitionsHTML += `<p>${definition.definition}</p>`
+            }
             innerHtml += `
                   <div id="word-wrapper">
                      <p id="type">${word?.meanings[0].partOfSpeech ?? ""}</p>
                      ${phoneticContainer.outerHTML}
                      <p id="meaning-header">Meaning:</p>
-                     <p id="definition">${word.meanings[0].definitions.map((def) => def.definition).join("<br>")}</p>
+                     <div class="line-numbered">${definitionsHTML}</div>
                      <p id="synonyms-header">Synonyms: ${word.meanings[0].synonyms.join(",")}</p>
                   </div>
             `
